@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Golden Powder in Water</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="glass">
+      <div class="spoon"></div>
+      <div class="flashlight-glow"></div>
+      <div class="water"></div>
+      <div class="particles" id="particles"></div>
+      <div class="phone"></div>
+    </div>
+    <div class="play-button" onclick="dropParticles()"></div>
+  </div>
+
+  <!-- Audio file -->
+  <audio id="sound" src="drop.mp3" preload="auto"></audio>
+
+  <script>
+    function dropParticles() {
+      const audio = document.getElementById("sound");
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch((e) => {
+          console.log("Audio play blocked:", e);
+        });
+      }
+
+      const particles = document.getElementById("particles");
+      particles.innerHTML = "";
+
+      for (let i = 0; i < 300; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+
+        const left = 40 + Math.random() * 20; // 40% to 60%
+        particle.style.left = `${left}%`;
+
+        const delay = Math.random() * 2;
+        particle.style.animationDelay = `${delay}s`;
+
+        const size = Math.random() * 2 + 1.5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        const drift = (Math.random() - 0.5) * 160; // Spread horizontally
+        particle.style.setProperty('--drift-x', `${drift}px`);
+
+        particles.appendChild(particle);
+
+        setTimeout(() => {
+          particle.remove();
+        }, 12000);
+      }
+    }
+  </script>
+</body>
+</html>
